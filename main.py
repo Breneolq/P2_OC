@@ -1,47 +1,53 @@
 import csv
 import requests
 from bs4 import BeautifulSoup
+import urllib.parse
 
-        #Première Etape#
-
-"""
-    -Choisir une page Produit & se connecter
-
-"""
-
+url_home = 'http://books.toscrape.com/'
 url_produit = 'http://books.toscrape.com/catalogue/in-a-dark-dark-wood_963/index.html'
 response = requests.get(url_produit)
 
-"""
-    
-    -Extraire les infos:
-        product_page_url
-        universal_product_code
-        title
-        price_including_tax
-        price_excluding_tax
-        number_available
-        product_description
-        category
-        review_rating
-        image_url
-    
-"""
+
 if response.ok:
-    soup = BeautifulSoup(response.text, features="html.parser")
+    soupe = BeautifulSoup(response.text, features="html.parser")
     product_page_url = url_produit
-    universal_product_code = 0
-    title = 0
-    price_including_tax = 0
-    price_excluding_tax = 0
-    number_available = 0
-    product_description = 0
-    category = 0
-    review_rating = 0
-    image_url = 0
+    
+def SearchInBoard(id, soup):
+    for i in soup.find_all("th"):
+        if i.text.strip() == id:
+            return(i.find_next("td").text.strip())
 
-    print(product_page_url)
+def SearchDescription(soup):
+    description = soup.find_all(['p'])
+    return(description[3].text.strip())
 
+def SearchTitle(soup):
+    return(soup.find('div', {'class': 'col-sm-6 product_main'}).find('h1').text.strip())
+
+def SearchCategory(soup):
+    category = soup.find('ul', {'class': 'breadcrumb'}).find_all(['a'])
+    return(category[2].text.strip())
+
+def SearchImageUrl(soup, url):
+    img = soup.find('div', {'class': 'thumbnail'}).find('div', {'class': 'carousel-inner'}).find('div', {'class': 'item active'}).find('img')
+    link = img['src']
+    return urllib.parse.urljoin(url, link)
+
+
+universal_product_code = SearchInBoard("UPC", soupe)
+price_including_tax = SearchInBoard("Price (incl. tax)", soupe)
+price_excluding_tax = SearchInBoard("Price (excl. tax)", soupe)
+number_available = SearchInBoard("Availability", soupe)
+review_rating = SearchInBoard("Number of reviews", soupe)
+product_description = SearchDescription(soupe)
+title = SearchTitle(soupe)
+category = SearchCategory(soupe)
+
+image_url = SearchImageUrl(soupe, url_home)
+
+
+
+print(image_url)
 
 """
     -Ecrire les données dans un fichier CSV en colonne avec
