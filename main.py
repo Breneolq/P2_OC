@@ -35,8 +35,9 @@ def SearchImageUrl(soup, url):
     return urllib.parse.urljoin(url, link)
 
 def WriteInCSV(universal_product_code, price_excluding_tax, price_including_tax, number_available, review_rating, product_description, title, category, image_url):
-    with open('text.csv', mode='w', newline='') as file:
-        file_writer = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+    with open('text.csv', mode='w', newline='') as test_file:
+        test_writer = csv.writer(test_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        test_writer.writerow([universal_product_code, price_excluding_tax, price_including_tax])
 
 universal_product_code = SearchInBoard("UPC", soupe)
 price_including_tax = SearchInBoard("Price (incl. tax)", soupe)
