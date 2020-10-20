@@ -34,6 +34,9 @@ def SearchImageUrl(soup, url):
     link = img['src']
     return urllib.parse.urljoin(url, link)
 
+def WriteInCSV(universal_product_code, price_excluding_tax, price_including_tax, number_available, review_rating, product_description, title, category, image_url):
+    with open('text.csv', mode='w', newline='') as file:
+        file_writer = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
 
 universal_product_code = SearchInBoard("UPC", soupe)
 price_including_tax = SearchInBoard("Price (incl. tax)", soupe)
@@ -46,12 +49,7 @@ category = SearchCategory(soupe)
 
 image_url = SearchImageUrl(soupe, url_home)
 
-print(product_description)
-
-"""
-    -Ecrire les données dans un fichier CSV en colonne avec
-    les valeurs ci dessus comme en-tête
-"""
+WriteInCSV(universal_product_code, price_excluding_tax, price_including_tax, number_available, review_rating, product_description, title, category, image_url)
 
         #Seconde Etape#
 
