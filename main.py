@@ -18,8 +18,9 @@ def SearchInBoard(id, soup):
             return(i.find_next("td").text.strip())
 
 def SearchDescription(soup):
-    description = soup.find_all(['p'])
-    return(description[3].text.strip())
+    meta = soup.find('meta', {'name': 'description'})
+    description = meta['content']
+    return(description)
 
 def SearchTitle(soup):
     return(soup.find('div', {'class': 'col-sm-6 product_main'}).find('h1').text.strip())
@@ -45,9 +46,7 @@ category = SearchCategory(soupe)
 
 image_url = SearchImageUrl(soupe, url_home)
 
-
-
-print(image_url)
+print(product_description)
 
 """
     -Ecrire les données dans un fichier CSV en colonne avec
