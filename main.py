@@ -6,6 +6,7 @@ import urllib.parse
 url_home = 'http://books.toscrape.com/'
 url_produit = 'http://books.toscrape.com/catalogue/in-a-dark-dark-wood_963/index.html'
 response = requests.get(url_produit)
+response.encoding = 'utf-8'
 
 
 if response.ok:
@@ -34,10 +35,11 @@ def SearchImageUrl(soup, url):
     link = img['src']
     return urllib.parse.urljoin(url, link)
 
-def WriteInCSV(universal_product_code, price_excluding_tax, price_including_tax, number_available, review_rating, product_description, title, category, image_url):
-    with open('text.csv', mode='w', newline='') as test_file:
+def WriteInCSV(title, category, product_description, universal_product_code, price_including_tax, price_excluding_tax, number_available, review_rating, image_url):
+    with open(category +'.csv', mode='w', newline='') as test_file:
         test_writer = csv.writer(test_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-        test_writer.writerow([universal_product_code, price_excluding_tax, price_including_tax])
+        test_writer.writerow(['title', 'category', 'product_description', 'universal_product_code', 'price_including_tax', 'price_excluding_tax', 'number_available', 'review_rating', 'image_url'])
+        test_writer.writerow([title, category, product_description, universal_product_code, price_including_tax, price_excluding_tax, number_available, review_rating, image_url])
 
 universal_product_code = SearchInBoard("UPC", soupe)
 price_including_tax = SearchInBoard("Price (incl. tax)", soupe)
@@ -50,7 +52,7 @@ category = SearchCategory(soupe)
 
 image_url = SearchImageUrl(soupe, url_home)
 
-WriteInCSV(universal_product_code, price_excluding_tax, price_including_tax, number_available, review_rating, product_description, title, category, image_url)
+WriteInCSV(title, category, product_description, universal_product_code, price_including_tax, price_excluding_tax, number_available, review_rating, image_url)
 
         #Seconde Etape#
 
