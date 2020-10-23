@@ -1,18 +1,28 @@
-import csv
+
 import requests
 from bs4 import BeautifulSoup
 import urllib.parse
+from folder import File
+
+
+category = 'Testt'
+essai = File(category)
+essai.open_file()
+
+
+"""
+
 
 url_home = 'http://books.toscrape.com/'
 
-def GetBookInfos(url_product):
+def get_book_infos(url_product):
     
     response = requests.get(url_product)
-    response.encoding = 'utf-8'
 
 
     if response.ok:
         soupe = BeautifulSoup(response.text, features="html.parser")
+        soupe.encoding = 'utf-8'
     
     def SearchInBoard(id, soup):
         for i in soup.find_all("th"):
@@ -51,9 +61,12 @@ def GetBookInfos(url_product):
     title = SearchTitle(soupe)
     category = SearchCategory(soupe)
 
+
     image_url = SearchImageUrl(soupe, url_home)
 
     WriteInCSV(title, category, product_description, universal_product_code, price_including_tax, price_excluding_tax, number_available, review_rating, image_url)
 
-Test_url = 'http://books.toscrape.com/catalogue/this-one-summer_947/index.html'
-GetBookInfos(Test_url)
+Test_url = 'http://books.toscrape.com/catalogue/friday-night-lights-a-town-a-team-and-a-dream_158/index.html'
+get_book_infos(Test_url)
+
+"""
