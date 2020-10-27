@@ -1,13 +1,12 @@
 import urllib.parse
-from folder import File
+from bs4 import BeautifulSoup
+import requests
+import csv
 
-
-"""
-
-
-url_home = 'http://books.toscrape.com/'
 
 def get_book_infos(url_product):
+
+    url_home = 'http://books.toscrape.com/'
     
     response = requests.get(url_product)
 
@@ -58,7 +57,17 @@ def get_book_infos(url_product):
 
     WriteInCSV(title, category, product_description, universal_product_code, price_including_tax, price_excluding_tax, number_available, review_rating, image_url)
 
-Test_url = 'http://books.toscrape.com/catalogue/friday-night-lights-a-town-a-team-and-a-dream_158/index.html'
-get_book_infos(Test_url)
+#Test_url = 'http://books.toscrape.com/catalogue/friday-night-lights-a-town-a-team-and-a-dream_158/index.html'
+#get_book_infos(Test_url)
 
-"""
+def extract_book_url(category_url):
+
+    retour = './page-2.html'
+    
+    page = urllib.parse.urljoin(category_url, retour)
+
+    print(page)
+
+category_url = 'http://books.toscrape.com/catalogue/category/books/historical-fiction_4/index.html'
+
+extract_book_url(category_url)
