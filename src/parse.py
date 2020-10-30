@@ -10,5 +10,5 @@ class Parser:
         parsed_html = BeautifulSoup(self.response.text, features="html.parser")
         parsed_html.encoding = 'utf-8'
         categories_browser = Browser(parsed_html)
-        categories_browser.browse_categories()
+        categories_browser.browse_books()
         
