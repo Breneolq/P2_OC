@@ -6,9 +6,10 @@ class Parser:
     def __init__(self, response):
         self.response = response
         
-    def html_parser(self):
+    def html_parser(self, page):
         parsed_html = BeautifulSoup(self.response.text, features="html.parser")
         parsed_html.encoding = 'utf-8'
-        categories_browser = Browser(parsed_html)
-        categories_browser.browse_books()
+        browser = Browser(parsed_html)
+        getattr(browser, "browse_" + page)()
+        
         
