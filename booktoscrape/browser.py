@@ -18,7 +18,6 @@ class Browser:
     
     def browse_books(self):
         list_book = []
-        next_button = self.parsed_page.find('li', {'class':'next'})
         tab_of_li = self.parsed_page.find_all('li', {'class':'col-xs-6 col-sm-4 col-md-3 col-lg-3'})
         for li in tab_of_li:
             a = li.find('article', {'class':'product_pod'}).find('div', {'class':'image_container'}).find('a')
