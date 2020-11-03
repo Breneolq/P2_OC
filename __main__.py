@@ -8,19 +8,17 @@ if __name__ == "__main__":
 
 #Test méthode de récupération URL des catégories
 
-parse_response = Parser(url)
-parsed_response = parse_response.html_parser()
+parse_response = Parser()
+scrapper = Scrapper()
 
-scrapper = Scrapper(parsed_response)
-list_category = scrapper.scrap_categories()
+parsed_response = parse_response.html_parser(url)
+category_list = scrapper.scrap_categories(parsed_response)
 
 #Test méthode de récupération URL de la page suivante
 """
-category_response = Parser(list_category[3])
-category_html = category_response.html_parser()
+category_html = parse_response.html_parser(list_category[3])
 
-category_scrapper = Scrapper(category_html)
-category_url_next_page = category_scrapper.scrap_page_in_categories(list_category[3])
+books_in_category = scrapper.scrap_books(category_html)
 """
 #Test méthode de récupération Url des livres sur la page
 """
@@ -30,7 +28,7 @@ book_response_parsed = book_response.html_parser()
 book_url_scrapper = Scrapper(book_response_parsed)
 book_url_list = book_url_scrapper.scrap_books()
 """
-print(list_category)
+print(category_list)
 
 
 
