@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 
-import urllib.parse
+from urllib.parse import urljoin
 
 class Scrapper:
  
@@ -17,8 +17,14 @@ class Scrapper:
             list_category.append(category_url)
         return list_category
     
-    def scrap_page_in_categories(self, category_list):
-        pass
+    def scrap_page_in_categories(self, category_url):
+        if self.parsed_page.find('li', {'class':'next'}):
+            a = self.parsed_page.find('li', {'class': 'next'}).find('a')
+            next_page = a['href']
+            category_url_next_page = urljoin(category_url, next_page)
+            return category_url_next_page
+        else :
+            pass
     
     def scrap_books(self):
         list_book = []

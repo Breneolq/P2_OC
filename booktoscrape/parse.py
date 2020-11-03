@@ -8,7 +8,12 @@ class Parser:
         self.url = url
         
     def html_parser(self):
-        response = requests.get(self.url)
+
+        try:
+            response = requests.get(self.url)
+        except ValueError:
+            print("Nous n'avons pas réussis à nous connecter à la page")
+        
         parsed_html = BeautifulSoup(response.text, features="html.parser")
         parsed_html.encoding = 'utf-8'
         return parsed_html

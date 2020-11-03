@@ -10,20 +10,17 @@ parse_response = Parser(url)
 parsed_html = parse_response.html_parser()
 
 scrapper = Scrapper(parsed_html)
-category_list = scrapper.scrap_categories()
+list_category = scrapper.scrap_categories()
 
-i = 0
+#Test méthode de récupération URL de page
 
-while i < len(category_list):
-    category_response = Parser(category_list[i])
-    i += 1
-    category_html = category_response.html_parser()
+category_response = Parser(list_category[3])
+category_html = category_response.html_parser()
 
-    category_scrapper = Scrapper(category_html)
+category_scrapper = Scrapper(category_html)
+category_url_next_page = category_scrapper.scrap_page_in_categories(list_category[3])
 
-    book_list = category_scrapper.scrap_books()
-
-    print(book_list)
+print(category_url_next_page)
 
 
 
