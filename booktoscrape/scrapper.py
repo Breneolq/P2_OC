@@ -27,7 +27,7 @@ class Scrapper:
             end_link = a['href']
             end_link_short = end_link[9:]
             start_link = 'http://books.toscrape.com/catalogue/'
-            link = start_link + end_link_short
+            link = urljoin(start_link, end_link_short)
             list_book.append(link)
        
         return list_book
@@ -48,7 +48,7 @@ class Scrapper:
                 book_in_page_1 = book_in_page_1 + books_in_page
                 category_html = next_page_html
             i += 1
-        return
+        
         
     
     
