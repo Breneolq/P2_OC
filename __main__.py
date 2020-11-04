@@ -15,10 +15,10 @@ parsed_response = parser.html_parser(url)
 category_list = scrapper.scrap_categories(parsed_response)
 
 #test pagination
-i = 1
+i = 0
 
-if i == 1:
-    
+while i < len(category_list):
+
     category_html = parser.html_parser(category_list[i])
     book_in_page_1 = scrapper.scrap_books(category_html)
 
@@ -31,8 +31,13 @@ if i == 1:
         book_in_page_1 = book_in_page_1 + books_in_page
         category_html = next_page_html
     
-print(book_in_page_1[0])
-print(book_in_page_1[1])
+    print(i)
+    print(book_in_page_1)
+    i += 1
+    
+
+
+
 
 #Test méthode de récupération URL de la page suivante
 """
