@@ -18,15 +18,7 @@ class Scrapper:
             category_url = 'http://books.toscrape.com/' + link
             category_list.append(category_url)
         return category_list
-    
-    def scrap_page_in_categories(self, parsed_page):        
-        while parsed_page.find('li', {'class':'next'}):
-            a = parsed_page.find('li', {'class': 'next'}).find('a')
-            next_page = a['href']
-            category_url_next_page = urljoin(category_url, next_page)
-        else :
-            pass
-        
+
     def scrap_books(self, parsed_page):
         list_book = []
         tab_of_li = parsed_page.find_all('li', {'class':'col-xs-6 col-sm-4 col-md-3 col-lg-3'})
@@ -39,6 +31,24 @@ class Scrapper:
             list_book.append(link)
        
         return list_book
+    
+    def scrap_books_in_category(self, category_list, parser, scrapper):
+        i = 0
+        while i < len(category_list):
+
+            category_html = parser.html_parser(category_list[i])
+            book_in_page_1 = scrapper.scrap_books(category_html)
+
+            while category_html.find('li', {'class':'next'}):
+                a = category_html.find('li', {'class': 'next'}).find('a')
+                next_page = a['href']
+                category_url_next_page = urljoin(category_list[i], next_page)
+                next_page_html = parser.html_parser(category_url_next_page)
+                books_in_page = scrapper.scrap_books(next_page_html)
+                book_in_page_1 = book_in_page_1 + books_in_page
+                category_html = next_page_html
+            i += 1
+        return
         
     
     
