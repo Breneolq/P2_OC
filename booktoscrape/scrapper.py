@@ -1,13 +1,12 @@
 from bs4 import BeautifulSoup
 
-from urllib.parse import urljoin
-
 class Scrapper:
  
-    def __init__(self, parser, url, list_of_books_ids):
+    def __init__(self, parser, URL, list_of_books_ids, url):
         self.__parser = parser
-        self.base_url = url
+        self.base_url = URL
         self.books_ids_search = list_of_books_ids
+        self.__url = url
 
     def create_soup(self, url):
         return self.__parser.html_parser(url)
@@ -17,7 +16,7 @@ class Scrapper:
         tab_of_li = parsed_page.find('ul', {'class': 'nav nav-list'}).find('li').find('ul').find_all('li')
         for li in tab_of_li:
             link = li.find('a')['href']
-            category_url = 'http://books.toscrape.com/' + link
+            category_url = self.__url.add_two_url(self.base_url, link)
             category_list.append(category_url)
         return category_list
 
@@ -28,7 +27,7 @@ class Scrapper:
         for li in tab_of_li:
             end_link = li.find('article', {'class':'product_pod'}).find('div', {'class':'image_container'}).find('a')['href']
             end_link_short = end_link[9:]
-            link = urljoin(start_link, end_link_short)
+            link = self.__url.join_url(start_link, end_link_short)
             list_book.append(link)
        
         return list_book
@@ -42,7 +41,7 @@ class Scrapper:
 
             while category_html.find('li', {'class':'next'}):
                 next_page = category_html.find('li', {'class': 'next'}).find('a')['href']
-                category_url_next_page = urljoin(category_list[i], next_page)
+                category_url_next_page = self.__url.join_url(category_list[i], next_page)
                 next_page_html = scrapper.create_soup(category_url_next_page)
                 books_in_page = scrapper.scrap_books(next_page_html)
                 book_in_page_1 = book_in_page_1 + books_in_page
@@ -81,7 +80,7 @@ class Scrapper:
 
     def scrap_book_image_url(self, soup):
         link = soup.find('div', {'class': 'thumbnail'}).find('div', {'class': 'carousel-inner'}).find('div', {'class': 'item active'}).find('img')['src']
-        return(urljoin(self.base_url, link))
+        return(self.__url.join_url(self.base_url, link))
 
         
         
