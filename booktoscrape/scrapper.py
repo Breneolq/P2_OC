@@ -57,9 +57,14 @@ class Scrapper:
             category = scrapper.scrap_book_category(book_html)
             description = scrapper.scrap_book_description(book_html)
             book_infos = scrapper.scrap_in_board(book_html)
+            universal_product_code = book_infos[0]
+            price_including_tax = book_infos[1]
+            price_excluding_tax = book_infos[2]
+            number_available = book_infos[3]
+            review_rating = book_infos[4]
             image_url = scrapper.scrap_book_image_url(book_html)
 
-            print(title, category, description, book_infos, image_url)
+            print(title, category, description, universal_product_code, price_including_tax, price_excluding_tax, number_available, review_rating, image_url)
             
 
     
