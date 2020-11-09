@@ -46,8 +46,8 @@ class Scrapper:
                 books_in_page = scrapper.scrap_books(next_page_html)
                 book_in_page_1 = book_in_page_1 + books_in_page
                 category_html = next_page_html
-            print(i)
             scrapper.books_url(book_in_page_1, scrapper)
+            
             i += 1
     
     def books_url(self, book_list, scrapper):
@@ -56,19 +56,26 @@ class Scrapper:
             title = scrapper.scrap_book_title(book_html)
             category = scrapper.scrap_book_category(book_html)
             description = scrapper.scrap_book_description(book_html)
+            book_infos = scrapper.scrap_in_board(book_html)
             image_url = scrapper.scrap_book_image_url(book_html)
-            print(title, category, description, image_url)
+
+            print(title, category, description, book_infos, image_url)
+            
 
     
     def scrap_book_title(self, soup):
         return(soup.find('div', {'class': 'col-sm-6 product_main'}).find('h1').text.strip())
     
     def scrap_in_board(self, soup):
-        for id in self.books_ids_search:
-            for i in soup.find_all("th"):
-                if i.text.strip() == id:
-                    return(i.find_next("td").text.strip())
-
+        books_infos = []
+        i = 0
+        while i < len(self.books_ids_search):
+            for p in soup.find_all("th"):
+                if p.text.strip() == self.books_ids_search[i]:
+                    books_infos.append(p.find_next("td").text.strip())
+                    i += 1
+        return(books_infos)
+                
     def scrap_book_description(self, soup):
         meta = soup.find('meta', {'name': 'description'})
         description = meta['content']
