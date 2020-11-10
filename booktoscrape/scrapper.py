@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+import csv
 
 class Scrapper:
  
@@ -35,7 +36,7 @@ class Scrapper:
     def scrap_books_in_category(self, category_list, scrapper):
         i = 0
         while i < len(category_list):
-
+            
             category_html = scrapper.create_soup(category_list[i])
             book_in_page_1 = scrapper.scrap_books(category_html)
 
@@ -63,11 +64,8 @@ class Scrapper:
             number_available = book_infos[3]
             review_rating = book_infos[4]
             image_url = scrapper.scrap_book_image_url(book_html)
-
-            print(title, category, description, universal_product_code, price_including_tax, price_excluding_tax, number_available, review_rating, image_url)
+            scrapper.write_in_csv(title, category, description, universal_product_code, price_including_tax, price_excluding_tax, number_available, review_rating, image_url)
             
-
-    
     def scrap_book_title(self, soup):
         return(soup.find('div', {'class': 'col-sm-6 product_main'}).find('h1').text.strip())
     
@@ -93,6 +91,12 @@ class Scrapper:
     def scrap_book_image_url(self, soup):
         link = soup.find('div', {'class': 'thumbnail'}).find('div', {'class': 'carousel-inner'}).find('div', {'class': 'item active'}).find('img')['src']
         return(self.__url.join_url(self.base_url, link))
+    
+    def write_in_csv(self, title, category, product_description, universal_product_code, price_including_tax, price_excluding_tax, number_available, review_rating, image_url):
+        with open(category +'.csv', mode='w', encoding="utf-8", newline='\n') as csv_file:
+            test_writer = csv.writer(csv_file, delimiter=';', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            test_writer.writerow(['title', 'category', 'product_description', 'universal_product_code', 'price_including_tax', 'price_excluding_tax', 'number_available', 'review_rating', 'image_url'])
+            test_writer.writerow([title, category, product_description, universal_product_code, price_including_tax, price_excluding_tax, number_available, review_rating, image_url])
 
         
         
