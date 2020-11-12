@@ -14,7 +14,7 @@ class Parser:
         except ValueError:
             print("Nous n'avons pas réussis à nous connecter à la page")
         
-        parsed_html = BeautifulSoup(response.text, features="html.parser")
-        parsed_html.encoding = 'utf-8'
+        parsed_html = BeautifulSoup(response.content.decode('utf-8', 'ignore'), features="html.parser")
+        parsed_html.encode("utf8")
         return parsed_html
         

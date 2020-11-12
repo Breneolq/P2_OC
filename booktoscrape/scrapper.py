@@ -93,7 +93,7 @@ class Scrapper:
         return(self.__url.join_url(self.base_url, link))
     
     def write_in_csv(self, title, category, product_description, universal_product_code, price_including_tax, price_excluding_tax, number_available, review_rating, image_url):
-        with open(category +'.csv', mode='w', encoding="utf-8", newline='\n') as csv_file:
+        with open(category +'.csv', mode='a', encoding="utf-8", newline='') as csv_file:
             test_writer = csv.writer(csv_file, delimiter=';', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             test_writer.writerow(['title', 'category', 'product_description', 'universal_product_code', 'price_including_tax', 'price_excluding_tax', 'number_available', 'review_rating', 'image_url'])
             test_writer.writerow([title, category, product_description, universal_product_code, price_including_tax, price_excluding_tax, number_available, review_rating, image_url])
