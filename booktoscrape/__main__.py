@@ -1,6 +1,6 @@
-from booktoscrape.url import Url
-from booktoscrape.parse import Parser
-from booktoscrape.scrapper import Scrapper
+from url import Url
+from parse import Parser
+from scrapper import Scrapper
 
 def main ():
 
