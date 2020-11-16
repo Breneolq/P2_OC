@@ -1,4 +1,6 @@
 from bs4 import BeautifulSoup
+from pathlib import Path
+import os
 import csv
 
 class Scrapper:
@@ -13,6 +15,7 @@ class Scrapper:
         return self.__parser.html_parser(url)
         
     def scrap_categories(self, parsed_page):
+        os.chdir('../Python_Projet_2/booktoscrape/csv_folder')
         category_list = []
         tab_of_li = parsed_page.find('ul', {'class': 'nav nav-list'}).find('li').find('ul').find_all('li')
         for li in tab_of_li:
@@ -65,6 +68,7 @@ class Scrapper:
             review_rating = book_infos[4]
             image_url = scrapper.scrap_book_image_url(book_html)
             scrapper.write_in_csv(title, category, description, universal_product_code, price_including_tax, price_excluding_tax, number_available, review_rating, image_url)
+            #os.chdir('../Python_Projet_2/booktoscrape')
             
     def scrap_book_title(self, soup):
         return(soup.find('div', {'class': 'col-sm-6 product_main'}).find('h1').text.strip())
@@ -93,12 +97,11 @@ class Scrapper:
         return(self.__url.join_url(self.base_url, link))
     
     def write_in_csv(self, title, category, product_description, universal_product_code, price_including_tax, price_excluding_tax, number_available, review_rating, image_url):
-        with open(category +'.csv', mode='a', encoding="utf-8", newline='') as csv_file:
+        with Path(category + '.csv').open('a', encoding="utf-8") as csv_file:
             test_writer = csv.writer(csv_file, delimiter=';', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             test_writer.writerow(['title', 'category', 'product_description', 'universal_product_code', 'price_including_tax', 'price_excluding_tax', 'number_available', 'review_rating', 'image_url'])
             test_writer.writerow([title, category, product_description, universal_product_code, price_including_tax, price_excluding_tax, number_available, review_rating, image_url])
-
-        
+        return
         
     
     
