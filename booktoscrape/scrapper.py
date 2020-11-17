@@ -15,7 +15,7 @@ class Scrapper:
         return self.__parser.html_parser(url)
         
     def scrap_categories(self, parsed_page):
-        os.chdir('../Python_Projet_2/booktoscrape/csv_folder')
+        os.chdir('./booktoscrape/csv_folder')
         category_list = []
         tab_of_li = parsed_page.find('ul', {'class': 'nav nav-list'}).find('li').find('ul').find_all('li')
         for li in tab_of_li:
