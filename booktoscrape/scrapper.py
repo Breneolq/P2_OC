@@ -68,7 +68,6 @@ class Scrapper:
             review_rating = book_infos[4]
             image_url = scrapper.scrap_book_image_url(book_html)
             scrapper.write_in_csv(title, category, description, universal_product_code, price_including_tax, price_excluding_tax, number_available, review_rating, image_url)
-            #os.chdir('../Python_Projet_2/booktoscrape')
             
     def scrap_book_title(self, soup):
         return(soup.find('div', {'class': 'col-sm-6 product_main'}).find('h1').text.strip())
@@ -76,6 +75,7 @@ class Scrapper:
     def scrap_in_board(self, soup):
         books_infos = []
         i = 0
+        #for plutot que while
         while i < len(self.books_ids_search):
             for p in soup.find_all("th"):
                 if p.text.strip() == self.books_ids_search[i]:
