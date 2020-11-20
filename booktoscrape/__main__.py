@@ -1,20 +1,21 @@
-from url import Url
-from parse import Parser
+from requester import Requester
 from scrapper import Scrapper
+import constants
+
 
 def main():
 
-    URL = 'http://books.toscrape.com/'
-    BOOKS_IDS = ['UPC', 'Price (incl. tax)', 'Price (excl. tax)', 'Availability', 'Number of reviews']
+    URL = constants.URL
+    BOOKS_IDS = constants.BOOKS_IDS
 
-    url = Url()
-    parser = Parser()
-    scrapper = Scrapper(parser, URL, BOOKS_IDS, url)
+    requester = Requester()
+    scrapper = Scrapper(requester, URL, BOOKS_IDS)
 
-    parsed_response = parser.html_parser(URL)
-    category_list = scrapper.scrap_categories(parsed_response)
+    requested_response = requester.html_requester(URL)
+    category_list = scrapper.get_category_list(requested_response)
 
     scrapper.scrap_books_in_category(category_list, scrapper)
+
 
 if __name__ == "__main__":
 
