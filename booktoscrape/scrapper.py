@@ -40,23 +40,24 @@ class Scrapper:
         return list_book
 
     def scrap_books_in_category(self, category_list, scrapper):
-        i = 0
-        while i < len(category_list):
+        #i = 0
+        #while i < len(category_list):
+        for category in category_list:
 
-            category_html = scrapper.create_soup(category_list[i])
+            category_html = scrapper.create_soup(category)
             book_in_page_1 = scrapper.scrap_books(category_html)
 
             while category_html.find('li', {'class': 'next'}):
                 next_page = category_html.find('li', {'class': 'next'}).find('a')['href']
-                category_url_next_page = urljoin(category_list[i], next_page)
+                category_url_next_page = urljoin(category, next_page)
                 next_page_html = scrapper.create_soup(category_url_next_page)
                 books_in_page = scrapper.scrap_books(next_page_html)
                 book_in_page_1 = book_in_page_1 + books_in_page
                 category_html = next_page_html
-            scrapper.books_url(book_in_page_1, scrapper)
-            i += 1
+            scrapper.write_book(book_in_page_1, scrapper)
+            #i += 1
 
-    def books_url(self, book_list, scrapper):
+    def write_book(self, book_list, scrapper):
         for book in book_list:
             book_html = scrapper.create_soup(book)
             title = scrapper.scrap_book_title(book_html)
@@ -89,7 +90,7 @@ class Scrapper:
         title = soup.find('div', {'class': 'col-sm-6 product_main'}).find('h1').text.strip()
         for char in title:
             if char in " ?.!/;:,#()%":
-                title = title.replace(char,' ')
+                title = title.replace(char, ' ')
         return title
 
     def scrap_in_board(self, soup):
