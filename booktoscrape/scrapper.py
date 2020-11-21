@@ -18,7 +18,7 @@ class Scrapper:
         return self.requester.html_requester(url)
 
     def get_category_list(self, requested_page):
-        os.chdir('./booktoscrape/csv_folder')
+        os.chdir('./booktoscrape/results')
         category_list = []
         tab_of_li = requested_page.find('ul', {'class': 'nav nav-list'}).find('li').find('ul').find_all('li')
         for li in tab_of_li:
@@ -41,9 +41,9 @@ class Scrapper:
 
     def scrap_books_in_category(self, category_list, scrapper):
         i = 0
-        for category in category_list:
+        while i < len(category_list):
 
-            category_html = scrapper.create_soup(category)
+            category_html = scrapper.create_soup(category_list[i])
             book_in_page_1 = scrapper.scrap_books(category_html)
 
             while category_html.find('li', {'class': 'next'}):
@@ -54,6 +54,7 @@ class Scrapper:
                 book_in_page_1 = book_in_page_1 + books_in_page
                 category_html = next_page_html
             scrapper.books_url(book_in_page_1, scrapper)
+            i += 1
 
     def books_url(self, book_list, scrapper):
         for book in book_list:
@@ -85,7 +86,11 @@ class Scrapper:
             return 5
 
     def scrap_book_title(self, soup):
-        return(soup.find('div', {'class': 'col-sm-6 product_main'}).find('h1').text.strip())
+        title = soup.find('div', {'class': 'col-sm-6 product_main'}).find('h1').text.strip()
+        for char in title:
+            if char in " ?.!/;:,#()%":
+                title = title.replace(char,' ')
+        return title
 
     def scrap_in_board(self, soup):
         books_infos = []

@@ -1,6 +1,7 @@
 from requester import Requester
 from scrapper import Scrapper
 import constants
+import os
 
 
 def main():
@@ -13,8 +14,8 @@ def main():
 
     requested_response = requester.html_requester(URL)
     category_list = scrapper.get_category_list(requested_response)
-
-    scrapper.scrap_books_in_category(category_list, scrapper)
+    
+    books_in_category = scrapper.scrap_books_in_category(category_list, scrapper)
 
 
 if __name__ == "__main__":
