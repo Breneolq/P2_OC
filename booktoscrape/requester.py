@@ -9,7 +9,7 @@ class Requester:
     def __init__(self):
         pass
 
-    def html_requester(self, url):
+    def html_requester(self, url): #Fait une requete et retourne une réponse encodé en UTF-8 afin de pouvoir facilement récuperer des informations
         response = requests.get(url)
 
         if response.status_code != 200:
