@@ -5,7 +5,7 @@ Petit point sur le programme.
 Le programme va acceder à la première page du site. Il va chercher toutes les catégories et en faire une liste.
 Il va ensuite parcourir cette liste et récupérer tous les livres.
 Puis des livres, rechercher les informations suivantes afin de les renseigners dans un fichier csv:
-    
+```    
     product_page_url
     universal_ product_code (upc)
     title
@@ -16,7 +16,7 @@ Puis des livres, rechercher les informations suivantes afin de les renseigners d
     category
     review_rating
     image_url
-
+```
 Afin de faire fonctionner ce programme, il vous faudra installer Python 3.9.0 grace au lien: https://www.python.org/downloads/
 
 Une fois installé et à la racine du projet vous allez devoir créer un environnement virtuel.
