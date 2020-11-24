@@ -22,20 +22,20 @@ Afin de faire fonctionner ce programme, il vous faudra installer Python 3.9.0 gr
 Une fois installé et à la racine du projet vous allez devoir créer un environnement virtuel.
 Pour cela il va falloir installer le package necessaire:
 
-'' pip install virtualenv ''
+` pip install virtualenv `
 
 Creer un environnement virtuel:
 
-'' virtualenv -p python3 env ''
+` virtualenv -p python3 env `
 
 Afin d'activer l'environnement virtuel:
 
-'' source env/bin/activate ''
+` source env/bin/activate `
 
 Suite à cela, pour installer tous les packages necessaires tapez la commande suivante:
 
-'' pip install -r requirements.txt ''
+` pip install -r requirements.txt `
 
 Maintenant que vous avez tout ce qu'il vous faut, vous pouvez lancer le programme en faisant la commande:
 
-'' python booktoscrape ''
+` python booktoscrape `
