@@ -1,3 +1,5 @@
+<h1>Présentation du projet</h1>
+
 Bonjour,
 
 Petit point sur le programme.
@@ -5,6 +7,7 @@ Petit point sur le programme.
 Le programme va acceder à la première page du site. Il va chercher toutes les catégories et en faire une liste.
 Il va ensuite parcourir cette liste et récupérer tous les livres.
 Puis des livres, rechercher les informations suivantes afin de les renseigners dans un fichier csv:
+
 ```    
     product_page_url
     universal_ product_code (upc)
@@ -17,7 +20,14 @@ Puis des livres, rechercher les informations suivantes afin de les renseigners d
     review_rating
     image_url
 ```
+
+<h2>Environnement de travail</h2>
+
+<h3>Python</h3>
+
 Afin de faire fonctionner ce programme, il vous faudra installer Python 3.9.0 grace au lien: https://www.python.org/downloads/
+
+<h3>Environnement Virtuel</h3>
 
 Une fois installé et à la racine du projet vous allez devoir créer un environnement virtuel.
 Pour cela il va falloir installer le package necessaire:
@@ -35,6 +45,8 @@ Afin d'activer l'environnement virtuel:
 Suite à cela, pour installer tous les packages necessaires tapez la commande suivante:
 
 ` pip install -r requirements.txt `
+
+<h2>Lancement du programme</h2>
 
 Maintenant que vous avez tout ce qu'il vous faut, vous pouvez lancer le programme en faisant la commande:
 
