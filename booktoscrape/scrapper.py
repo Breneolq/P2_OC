@@ -9,7 +9,6 @@ import csv
 
 import constants
 
-
 class Scrapper:
     def __init__(self, requester):
         self.requester = requester
@@ -107,17 +106,16 @@ class Scrapper:
                 review_rating,
                 image_url,
             )
-            r = requests.get(image_url, stream=True)
+            r = requests.get(image_url, stream = True)
 
             if r.status_code == 200:
                 r.raw.decode_content = True
 
-                with open(title, "wb") as f:
+                with open(title, 'wb') as f:
                     shutil.copyfileobj(r.raw, f)
             else:
                 print("Image Couldn't be retreived")
-            # urlretrieve(image_url, title + ".jpg")
-
+            
     def scrap_stars_of_review(self, soup):
         """
         Récupère le nombre d'étoile
