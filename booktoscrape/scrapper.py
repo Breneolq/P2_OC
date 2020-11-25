@@ -7,10 +7,8 @@ import csv
 
 
 class Scrapper:
-    def __init__(self, requester, list_of_books_ids):
+    def __init__(self, requester):
         self.requester = requester
-        self.books_ids_search = list_of_books_ids
-        self.csv_index = constants.CSV_INDEX
 
     def create_soup(self, url):
         """
@@ -140,7 +138,7 @@ class Scrapper:
         Récupère le tableau avec les informations de type, price_including_tax et excluding_tax, l'upc...
         """
         books_infos = []
-        for ids in self.books_ids_search:
+        for ids in constants.BOOKS_IDS:
             for p in soup.find_all("th"):
                 if p.text.strip() == ids:
                     books_infos.append(p.find_next("td").text.strip())
@@ -192,7 +190,7 @@ class Scrapper:
             test_writer = csv.writer(
                 csv_file, delimiter=";", quotechar='"', quoting=csv.QUOTE_MINIMAL
             )
-            test_writer.writerow(self.csv_index)
+            test_writer.writerow(constants.CSV_INDEX)
             test_writer.writerow(
                 [
                     title,

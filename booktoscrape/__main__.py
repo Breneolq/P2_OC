@@ -7,13 +7,11 @@ def main():
     """
     Défini mes constantes, Instancie mes classes Requester et Scrapper, effectue une première requete puis transmet la réponse au scrapper
     """
-    URL = constants.URL
-    BOOKS_IDS = constants.BOOKS_IDS
 
     requester = Requester()
-    scrapper = Scrapper(requester, BOOKS_IDS)
+    scrapper = Scrapper(requester)
 
-    requested_response = requester.html_requester(URL)
+    requested_response = requester.html_requester(constants.URL)
     category_list = scrapper.get_category_list(requested_response)
 
     scrapper.scrap_books_in_category(category_list, scrapper)
