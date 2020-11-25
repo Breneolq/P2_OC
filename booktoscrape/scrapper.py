@@ -8,16 +8,22 @@ import csv
 
 class Scrapper:
 
-    def __init__(self, requester, URL, list_of_books_ids):
+    def __init__(self, requester, list_of_books_ids):
         self.requester = requester
-        self.base_url = URL
+        self.base_url = constants.URL
         self.books_ids_search = list_of_books_ids
         self.csv_index = constants.CSV_INDEX
 
-    def create_soup(self, url): #Recupère le contenu d'une page HTML
+    def create_soup(self, url):
+        """
+        Recupère le contenu d'une page HTML
+        """
         return self.requester.html_requester(url)
 
-    def get_category_list(self, requested_page): #Récupère la liste des urls des catégories
+    def get_category_list(self, requested_page):
+        """
+        Récupère la liste des urls des catégories
+        """
         os.chdir('./booktoscrape/results')
         category_list = []
         tab_of_li = requested_page.find('ul', {'class': 'nav nav-list'}).find('li').find('ul').find_all('li')
@@ -27,7 +33,10 @@ class Scrapper:
             category_list.append(category_url)
         return category_list
     
-    def scrap_books_in_category(self, category_list, scrapper): #Récupère toutes les URL des livres de la catégorie
+    def scrap_books_in_category(self, category_list, scrapper):
+        """
+        Récupère toutes les URL des livres de la catégorie
+        """
         
         for category in category_list:
 
@@ -43,7 +52,10 @@ class Scrapper:
                 category_html = next_page_html
             scrapper.write_book(book_in_page_1, scrapper)
 
-    def scrap_books(self, requested_page): #Récupère les URL des livres de la première page de la catégorie
+    def scrap_books(self, requested_page):
+        """
+        Récupère les URL des livres de la première page de la catégorie
+        """
         list_book = []
         tab_of_li = requested_page.find_all('li', {'class': 'col-xs-6 col-sm-4 col-md-3 col-lg-3'})
         start_link = 'http://books.toscrape.com/catalogue/'
@@ -56,7 +68,10 @@ class Scrapper:
         return list_book
 
     
-    def write_book(self, book_list, scrapper): #Lance la récupération de toutes les informations necessaire des livres, puis écrit dans dans un fichier CSV
+    def write_book(self, book_list, scrapper):
+        """
+        Lance la récupération de toutes les informations necessaire des livres, puis écrit dans dans un fichier CSV
+        """
         for book in book_list:
             book_html = scrapper.create_soup(book)
             title = scrapper.scrap_book_title(book_html)
@@ -72,7 +87,10 @@ class Scrapper:
             scrapper.write_in_csv(title, category, description, universal_product_code, price_including_tax, price_excluding_tax, number_available, review_rating, image_url)
             urlretrieve(image_url, title + ".jpg")
 
-    def scrap_stars_of_review(self, soup): #Récupère le nombre d'étoile
+    def scrap_stars_of_review(self, soup):
+        """
+        Récupère le nombre d'étoile
+        """
         classe = str(soup.find('p', {'class': 'star-rating'})['class'])
         if classe == "['star-rating', 'One']":
             return 1
@@ -85,14 +103,20 @@ class Scrapper:
         elif classe == "['star-rating', 'Five']":
             return 5
 
-    def scrap_book_title(self, soup): #Récupère le titre
+    def scrap_book_title(self, soup):
+        """
+        Récupère le titre
+        """
         title = soup.find('div', {'class': 'col-sm-6 product_main'}).find('h1').text.strip()
         for char in title:
             if char in " ?.!/;:,#()%":
                 title = title.replace(char, ' ')
         return title
 
-    def scrap_in_board(self, soup): #Récupère le tableau avec les informations de type, price_including_tax et excluding_tax, l'upc...
+    def scrap_in_board(self, soup):
+        """
+        Récupère le tableau avec les informations de type, price_including_tax et excluding_tax, l'upc...
+        """
         books_infos = []
         for ids in self.books_ids_search:
             for p in soup.find_all("th"):
@@ -100,20 +124,32 @@ class Scrapper:
                     books_infos.append(p.find_next("td").text.strip())
         return(books_infos)
 
-    def scrap_book_description(self, soup): #Récupère la description du livre
+    def scrap_book_description(self, soup):
+        """
+         Récupère la description du livre
+        """
         meta = soup.find('meta', {'name': 'description'})
         description = meta['content']
         return(description)
 
-    def scrap_book_category(self, soup): #Récupère le om de la catégorie
+    def scrap_book_category(self, soup):
+        """
+        Récupère le om de la catégorie
+        """
         category = soup.find('ul', {'class': 'breadcrumb'}).find_all(['a'])
         return(category[2].text.strip())
 
-    def scrap_book_image_url(self, soup): #Récupère l'url de l'image
+    def scrap_book_image_url(self, soup):
+        """
+        Récupère l'url de l'image
+        """
         link = soup.find('div', {'class': 'thumbnail'}).find('div', {'class': 'carousel-inner'}).find('div', {'class': 'item active'}).find('img')['src']
         return(urljoin(self.base_url, link))
 
-    def write_in_csv(self, title, category, product_description, universal_product_code, price_including_tax, price_excluding_tax, number_available, review_rating, image_url):#Ecrit en les informations dans un fichier CSV
+    def write_in_csv(self, title, category, product_description, universal_product_code, price_including_tax, price_excluding_tax, number_available, review_rating, image_url):
+        """
+        Ecrit en les informations dans un fichier CSV
+        """
         with Path(category + '.csv').open('a', encoding="utf-8") as csv_file:
             test_writer = csv.writer(csv_file, delimiter=';', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             test_writer.writerow(self.csv_index)

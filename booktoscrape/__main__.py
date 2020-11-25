@@ -3,8 +3,10 @@ from scrapper import Scrapper
 import constants
 
 
-def main(): #Défini mes constantes, Instancie mes classes Requester et Scrapper, effectue une première requete puis transmet la réponse au scrapper
-
+def main():
+    """
+    Défini mes constantes, Instancie mes classes Requester et Scrapper, effectue une première requete puis transmet la réponse au scrapper
+    """
     URL = constants.URL
     BOOKS_IDS = constants.BOOKS_IDS
 
