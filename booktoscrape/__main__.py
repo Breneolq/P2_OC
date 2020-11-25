@@ -5,7 +5,7 @@ import constants
 
 def main():
     """
-    Défini mes constantes, Instancie mes classes Requester et Scrapper, effectue une première requete puis transmet la réponse au scrapper
+    Instancie mes classes Requester et Scrapper, effectue une première requete puis transmet la réponse au scrapper
     """
 
     requester = Requester()
