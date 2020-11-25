@@ -1,9 +1,13 @@
 from pathlib import Path
 from urllib.parse import urljoin
 from urllib.request import urlretrieve
-import constants
+import requests
+import shutil
+
 import os
 import csv
+
+import constants
 
 
 class Scrapper:
@@ -103,7 +107,16 @@ class Scrapper:
                 review_rating,
                 image_url,
             )
-            urlretrieve(image_url, title + ".jpg")
+            r = requests.get(image_url, stream=True)
+
+            if r.status_code == 200:
+                r.raw.decode_content = True
+
+                with open(title, "wb") as f:
+                    shutil.copyfileobj(r.raw, f)
+            else:
+                print("Image Couldn't be retreived")
+            # urlretrieve(image_url, title + ".jpg")
 
     def scrap_stars_of_review(self, soup):
         """
