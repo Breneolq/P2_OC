@@ -11,7 +11,7 @@ def main():
     BOOKS_IDS = constants.BOOKS_IDS
 
     requester = Requester()
-    scrapper = Scrapper(requester, URL, BOOKS_IDS)
+    scrapper = Scrapper(requester, BOOKS_IDS)
 
     requested_response = requester.html_requester(URL)
     category_list = scrapper.get_category_list(requested_response)
